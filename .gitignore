@@ -19,3 +19,7 @@ Thumbs.db
 
 # Other
 test_images/
+
+# Logs
+/logs/*
+!/logs/.gitkeep

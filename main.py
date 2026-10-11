@@ -52,7 +52,7 @@ for image in user_images:
                         counter_saved += 1
                         break
                     else:
-                        print('Произошла ошибка при сохранении')
+                        print(save_result[1])
                         break
 
                 elif user_choice == 2:
