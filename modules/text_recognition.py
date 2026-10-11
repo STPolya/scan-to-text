@@ -8,5 +8,5 @@ def recognize_text(image, language):
         return (None, 'Не поддерживаемый файл')
     except FileNotFoundError:
         return (None, 'Файл не найден')
-    except Exception:
-        return (None, 'Произошла ошибка. Попробуйте позже')
+    except Exception as e:
+        return (None, f'Произошла ошибка. Попробуйте позже{e}')
