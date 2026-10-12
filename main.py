@@ -1,9 +1,9 @@
 from PIL import Image
 import pytesseract
 from modules.text_recognition import recognize_text
-from modules.saving_result import save_to_txt
+from modules.saving_result import save_to_txt, save_to_pdf, save_to_docx
 import sys
-
+#D:\Пет проекты\scan-to-text\test_images\diplomas.png
 SUPPORTED_LANGUAGES = ['rus', 'eng', 'rus+eng']
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -15,6 +15,13 @@ counter_saved = 0
 counter_success_recognize = 0
 counter_error = 0
 error_images = []
+
+def check_save_result(result, counter):
+    if result[0]:
+        counter += 1
+        return 'Успешно сохранено'
+    else:
+        return result[1]
 
 while True:
     if language_recognize in SUPPORTED_LANGUAGES:
@@ -39,26 +46,59 @@ for image in user_images:
         print(f'\nТекст с картинки {counter_all} ({image}): {text_from_image.strip()}\n')
         while True:
             try:
-                user_choice = int(input('Действия:\n1. Скачать результат в txt\n2. Пропустить изображение\n3. Закрыть\nВведите действие (1, 2 или 3): '))
+                user_choice = int(input('Действия:\n1. Сохранить в txt\n2. Сохранить в pdf\n3. Сохранить в docx\n4. Пропустить изображение\n5. Закрыть\nВведите действие (1, 2, 3, 4 или 5): '))
             except ValueError:
-                print('Выберите действие: 1, 2 или 3')
+                print('Выберите действие: 1, 2, 3, 4 или 5')
             else:
                 if user_choice == 1:
                     user_path_to_save = input(r'Укажите путь куда сохранить файл в формате D:\Документы\example.txt: ').strip()
                     save_result = save_to_txt(text_from_image, user_path_to_save)
 
-                    if save_result[0]:
-                        print('Успешно сохранено')
-                        counter_saved += 1
-                        break
-                    else:
-                        print(save_result[1])
-                        break
+                    print(check_save_result(save_result, counter_saved))
+                    break
+
+                    # if save_result[0]:
+                    #     print('Успешно сохранено')
+                    #     counter_saved += 1
+                    #     break
+                    # else:
+                    #     print(save_result[1])
+                    #     break
 
                 elif user_choice == 2:
+                    user_path_to_save = input(r'Укажите путь куда сохранить файл в формате D:\Документы\example.pdf: ').strip()
+                    save_result = save_to_pdf(image, user_path_to_save)
+
+                    print(check_save_result(save_result, counter_saved))
+                    break
+
+                    # if save_result[0]:
+                    #     print('Успешно сохранено')
+                    #     counter_saved += 1
+                    #     break
+                    # else:
+                    #     print(save_result[1])
+                    #     break
+
+                elif user_choice == 3:
+                    user_path_to_save = input(r'Укажите путь куда сохранить файл в формате D:\Документы\example.docx: ').strip()
+                    save_result = save_to_docx(text_from_image, user_path_to_save)
+
+                    print(check_save_result(save_result, counter_saved))
+                    break
+
+                    # if save_result[0]:
+                    #     print('Успешно сохранено')
+                    #     counter_saved += 1
+                    #     break
+                    # else:
+                    #     print(save_result[1])
+                    #     break
+
+                elif user_choice == 4:
                     print('К следующей картинке')
                     break
-                elif user_choice == 3:
+                elif user_choice == 5:
                     print('Спасибо! До свидания!')
                     sys.exit()
                 else:
