@@ -1,5 +1,5 @@
 def check_save_result(result, counter):
-    if result[0]:
+    if result is True:
         return 'Успешно сохранено', counter + 1
     else:
-        return result[1], counter
+        return result, counter
