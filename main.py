@@ -1,28 +1,18 @@
-import pytesseract
-from modules.console import get_language_from_user, image_menu, get_paths_from_user, table_menu
+from modules.console import get_paths_from_user, main_menu
+from modules.recognizing_text import recognize_text_from_image, recognize_text_from_table
+from modules.saving_result import show_table_result, show_text_result, save_text_result, save_table_result
 
-#Путь к исполняемому файлу Tesseract OCR
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+#D:\Пет проекты\test_images\2.png
+import os
+import warnings
+os.environ["GLOG_minloglevel"] = "1"
+warnings.filterwarnings(
+    "ignore",
+    message=r"No ccache found.*",
+    category=UserWarning,
+)
 
-#Ввод пути
-user_images = get_paths_from_user()
+user_paths, counter_all = get_paths_from_user()
 
-#Ввод языка
-language_recognize = get_language_from_user()
-
-#Меню и обработка
-while True:
-    try:
-        choice = int(input('Действия:\n1. Распознать текст\n2. Распознать таблицу\nВведите действие (1 или 2): '))
-        if choice > 2:
-            print(f'\nВведите корректное действие\n')
-    except ValueError:
-        print(f'\nВведите корректное действие\n')
-        continue
-
-    if choice == 1:
-            image_menu(user_images, language_recognize)
-            break
-    elif choice == 2:
-            table_menu(user_images, language_recognize)
-            break
+for element in recognize_text_from_image(user_paths):
+    show_text_result(element)

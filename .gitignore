@@ -4,8 +4,8 @@
 *.iml
 
 # Virtual environment
-.venv/
-venv/
+.venv-paddle/
+venv-paddle/
 env/
 __pycache__/
 *.pyc
