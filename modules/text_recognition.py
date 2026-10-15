@@ -2,7 +2,6 @@ from PIL import Image, UnidentifiedImageError
 import pytesseract
 from modules.logging_config import log_error
 
-
 def extract_text(image, language, config=""):
     #Распознает текст с картинки и обрабатывает ошибки
     try:
