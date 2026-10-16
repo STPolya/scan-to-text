@@ -1,12 +1,17 @@
 import logging
 
+def show_info_messages(func):
+    def wrapper(paths):
+        print('\nПодготавливаем OCR...', flush=True)
+        result = func(paths)
+        print(f'Распознаем текст...\n')
+        return result
+    return wrapper
+
+@show_info_messages
 def recognize_text_from_image(paths):
-    print('\nПодготавливаем OCR...', flush=True)
-
     from paddleocr import PaddleOCR
-
     logging.getLogger('paddlex').setLevel(logging.WARNING)
-
     image_ocr = PaddleOCR(
         device='cpu',
         enable_mkldnn=True,
@@ -16,15 +21,10 @@ def recognize_text_from_image(paths):
         text_detection_model_name='PP-OCRv5_server_det',
         text_recognition_model_name='eslav_PP-OCRv5_mobile_rec'
     )
-
-    print(f'Модели готовы. Распознаем текст...\n')
-
     return image_ocr.predict_iter(paths)
 
-
+@show_info_messages
 def recognize_text_from_table(paths):
-    print('\nПодготавливаем OCR...', flush=True)
-
     from paddleocr import TableRecognitionPipelineV2
 
     logging.getLogger('paddlex').setLevel(logging.WARNING)
@@ -39,7 +39,5 @@ def recognize_text_from_table(paths):
         wired_table_structure_recognition_model_name="SLANet_plus",
         wireless_table_structure_recognition_model_name="SLANet_plus"
     )
-
-    print(f'Модели готовы. Распознаем текст...\n')
 
     return table_ocr.predict_iter(paths)
