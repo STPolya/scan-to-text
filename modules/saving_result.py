@@ -5,7 +5,7 @@ def save_any_result(recognized_info, method_name):
     try:
         save_method = getattr(recognized_info, method_name)
         save_method('output')
-        print('\nУспешно сохранено в папку output\n')
+        print('\nУспешно сохранено в папку output')
     except Exception as error:
         print(f'Произошла ошибка при сохранении. {error}')
 
